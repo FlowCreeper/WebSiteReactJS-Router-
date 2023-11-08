@@ -1,4 +1,4 @@
-import { useState, useTransition } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Layout from "./Layout";
 import Home from "./Home";
@@ -7,24 +7,16 @@ import Lucas from "./Lucas";
 import Igor from "./Igor";
 
 export default function Router() {
-  const [page, setPage] = useState("/");
-  const [isPending, startTransition] = useTransition();
-
-  function navigate(url) {
-    startTransition(() => setPage(url));
-  }
-
-  let content;
-
-  if (page === "/") {
-    content = <Home />;
-  } else if (page === "/About") {
-    content = <About />;
-  } else if (page === "/Lucas") {
-    content = <Lucas />;
-  } else if (page === "/Igor") {
-    content = <Igor />;
-  }
-
-  return <Layout navigation={navigate}>{content}</Layout>;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="lucas" element={<Lucas />} />
+          <Route path="igor" element={<Igor />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
